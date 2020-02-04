@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\OrderCreated;
+use App\Notifications\OrderCreatedNotification;
 use App\Order;
+use App\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -36,7 +38,7 @@ class HomeController extends Controller
     {
         $order = factory(Order::class)->create();
 
-        event(new OrderCreated($order));
+        Notification::send(User::all(), new OrderCreatedNotification($order));
 
         return redirect()->route('home');
     }

@@ -4,11 +4,12 @@ namespace App\Notifications;
 
 use App\Order;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class OrderCreatedNotification extends Notification implements ShouldQueue
+class OrderCreatedNotification extends Notification implements ShouldQueue, ShouldBroadcast
 {
     use Queueable;
 
@@ -44,9 +45,9 @@ class OrderCreatedNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**
@@ -64,9 +65,5 @@ class OrderCreatedNotification extends Notification implements ShouldQueue
             'shipping_address' => $this->order->shipping_address,
             'amount' => $this->order->amount,
         ];
-    }
-
-    public function toBroadcast()
-    {
     }
 }

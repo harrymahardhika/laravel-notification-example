@@ -43,14 +43,12 @@ window.Echo = new Echo({
   encrypted: true
 });
 
-window.Echo.channel('order')
-  .listen('.App\\Events\\OrderCreated', (e) => {
+window.Echo.private('App.User.' + userId)
+  .notification((notification) => {
+    console.log(notification.type);
     ding.play({
-      onerror: (errorCode, description) => {
+      onerror: function(errorCode, description) {
+        console.log('Unable to play audio due to user permission settings')
       }
     })
-
-    console.log('hello world')
-    console.log(e)
-  })
-
+  });
