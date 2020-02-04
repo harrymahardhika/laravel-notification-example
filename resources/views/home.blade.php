@@ -14,7 +14,9 @@
               </div>
             @endif
 
-            You are logged in!
+            <div>
+              <a href="{{ route('generate-order') }}" class="btn btn-primary">Generate Order</a>
+            </div>
           </div>
         </div>
       </div>

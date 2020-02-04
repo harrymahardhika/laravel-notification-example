@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OrderCreated;
+use App\Order;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
+
 class HomeController extends Controller
 {
     /**
@@ -17,10 +22,22 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
         return view('home');
+    }
+
+    /**
+     * @return RedirectResponse
+     */
+    public function generateOrder(): RedirectResponse
+    {
+        $order = factory(Order::class)->create();
+
+        event(new OrderCreated($order));
+
+        return redirect()->route('home');
     }
 }
